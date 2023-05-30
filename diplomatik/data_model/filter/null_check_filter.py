@@ -14,4 +14,4 @@ class NullCheckFilter(Filter):
     """If set, treats empty strings as null"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.null_check, **data)
+        super().__init__(filter_type=FilterType.null_check, **data)

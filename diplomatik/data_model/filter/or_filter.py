@@ -7,4 +7,4 @@ class OrFilter(Filter):
     """The sub-filters to OR together"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.or_condition, **data)
+        super().__init__(filter_type=FilterType.or_condition, **data)

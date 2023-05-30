@@ -21,4 +21,4 @@ class LikeFilter(Filter):
     """If set, it will treat blank strings as nulls"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.like, **data)
+        super().__init__(filter_type=FilterType.like, **data)

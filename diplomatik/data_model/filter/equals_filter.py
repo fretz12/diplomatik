@@ -16,4 +16,4 @@ class EqualsFilter(Filter):
     """True to compare not equals"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.equals, **data)
+        super().__init__(filter_type=FilterType.equals, **data)

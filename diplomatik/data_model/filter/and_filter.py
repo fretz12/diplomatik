@@ -7,4 +7,4 @@ class AndFilter(Filter):
     """The sub-filters to AND together"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.and_condition, **data)
+        super().__init__(filter_type=FilterType.and_condition, **data)

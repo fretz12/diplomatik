@@ -20,4 +20,4 @@ class BoundFilter(Filter):
     """If set, then upper > field, else upper >= field"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.bound, **data)
+        super().__init__(filter_type=FilterType.bound, **data)

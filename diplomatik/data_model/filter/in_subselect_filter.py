@@ -17,4 +17,4 @@ class InSubSelectFilter(Filter):
     """If set, checks if a field does not match any value in the selction"""
 
     def __init__(self, **data):
-        super().__init__(command_type=FilterType.matches_any_in_subselect, **data)
+        super().__init__(filter_type=FilterType.matches_any_in_subselect, **data)
