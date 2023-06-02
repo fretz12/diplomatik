@@ -1,4 +1,4 @@
-# Diplomatik: Unified APIs and Services for All Data Sources
+# Diplomatik: SQL-Based APIs for Data Analytics and Transformations
 
 ## Introduction
 

@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Any
 
 from diplomatik.data_model.filter.filter import Filter, FilterType
 from diplomatik.data_model.query.field import Field
@@ -11,7 +11,7 @@ class InFilter(Filter):
     field: Field
     """The field to validate"""
 
-    in_values: List[Any]
+    in_values: list[Any]
     """List of values to match against"""
 
     negate: bool = False

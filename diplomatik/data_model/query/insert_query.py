@@ -1,5 +1,6 @@
 from abc import ABC
 from enum import Enum
+from typing import Literal
 
 from diplomatik.data_model.filter.filter import Filter
 from diplomatik.data_model.query.column import Column
@@ -16,22 +17,24 @@ class InsertType(Enum):
 
 class InsertQuery(Query, ABC):
     """Base class for an insert query"""
+    query_type: Literal[QueryType.insert.value]
+    """The type of query"""
+
     insert_type: InsertType
     """The insert type"""
 
     table: Table
     """The table to insert into"""
 
-    columns: [Column]
+    columns: list[Column]
     """The columns to insert data into"""
 
     def __init__(self, data_source_config: DataSourceConfig,
                  query_result_config: QueryResultConfig = None,
                  query_id: str | None = None,
-                 event_hooks: [EventHook] = None,
+                 event_hooks: list[EventHook] | None = None,
                  **data):
-        super().__init__(query_type=QueryType.insert,
-                         data_source_config=data_source_config,
+        super().__init__(data_source_config=data_source_config,
                          query_result_config=query_result_config,
                          query_id=query_id,
                          event_hooks=event_hooks,
@@ -42,7 +45,7 @@ class InsertValuesQuery(InsertQuery):
     """
     Query to insert values
     """
-    values: [[str]]
+    values: list[list[str]]
     """the values to insert"""
 
     on_duplicate_key: bool = False
@@ -50,11 +53,11 @@ class InsertValuesQuery(InsertQuery):
     insert the values. This is supported only on certain data sources"""
 
     def __init__(self, table: Table,
-                 columns: [Column],
+                 columns: list[Column],
                  data_source_config: DataSourceConfig,
                  query_result_config: QueryResultConfig = None,
                  query_id: str | None = None,
-                 event_hooks: [EventHook] = None,
+                 event_hooks: list[EventHook] | None = None,
                  **data):
         super().__init__(insert_type=InsertType.values,
                          table=table,
@@ -77,11 +80,11 @@ class InsertSelectionQuery(InsertQuery):
     """Optional filter to apply to the extracted data"""
 
     def __init__(self, table: Table,
-                 columns: [Column],
+                 columns: list[Column],
                  data_source_config: DataSourceConfig,
                  query_result_config: QueryResultConfig = None,
                  query_id: str | None = None,
-                 event_hooks: [EventHook] = None,
+                 event_hooks: list[EventHook] | None  = None,
                  **data):
         super().__init__(insert_type=InsertType.selection,
                          table=table,

@@ -1,7 +1,8 @@
 from enum import Enum
+from typing import Literal
 
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponentType
-from diplomatik.data_model.query.field import Field, FieldDataType
+from diplomatik.data_model.query_component import QueryComponentType
+from diplomatik.data_model.query.field import Field, FieldDataType, FieldType
 from diplomatik.exceptions.exceptions import DataModelException
 
 
@@ -71,6 +72,12 @@ class FunctionType(Enum):
 
 
 class Function(Field):
+    """
+    The function field takes in arguments and outputs a result
+    """
+    field_type: Literal[FieldType.function.value]
+    """The type of field"""
+
     function_category: FunctionCategory
     """The category the function belongs in"""
 

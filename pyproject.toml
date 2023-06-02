@@ -20,6 +20,7 @@ psycopg2-binary = "^2.9.6"
 loguru = "^0.7.0"
 google-api-python-client = "^2.87.0"
 pdoc = "^13.1.1"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
 
 [build-system]
 requires = ["poetry-core"]

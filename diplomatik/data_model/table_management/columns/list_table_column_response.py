@@ -1,4 +1,4 @@
-from diplomatik.data_model.table_management.table_management_command_response import \
+from diplomatik.data_model.table_management.data_source_management_command_response import \
     DataSourceManagementCommandResponse, DataSourceManagementCommandResponseType
 
 

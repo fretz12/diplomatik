@@ -9,7 +9,7 @@ class DeleteColumnIndexesCommand(DataSourceManagementCommand):
     table: Table
     """The table to delete indexes"""
 
-    columns_to_unindex: [Column]
+    columns_to_unindex: list[Column]
     """The columns to delete indexes for"""
 
     def __init__(self, **data):

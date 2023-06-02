@@ -1,7 +1,8 @@
+from abc import ABC
 from enum import Enum
 
 
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 from diplomatik.data_model.query.field import Field
 from diplomatik.exceptions.exceptions import DataModelException
 
@@ -42,7 +43,7 @@ class AggregationType(Enum):
         raise DataModelException(f"{value} is not a valid aggregation type")
 
 
-class Aggregation(QueryComponent):
+class Aggregation(QueryComponent, ABC):
     """Definition on how to apply aggregation on a field"""
     aggregation_type: AggregationType
     """The type of aggregation"""
@@ -52,3 +53,6 @@ class Aggregation(QueryComponent):
 
     result_alias: str
     """The alias for the aggregated result"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.aggregation, **data)

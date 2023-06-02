@@ -3,7 +3,7 @@ from diplomatik.data_model.filter.filter import Filter, FilterType
 
 class AndFilter(Filter):
     """The filter the outputs the logical AND of its children filters"""
-    filters: [Filter]
+    filters: list[Filter]
     """The sub-filters to AND together"""
 
     def __init__(self, **data):

@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Literal
 
 from diplomatik.data_model.query.event_hooks.event_hook import EventHook
 from diplomatik.data_model.query.query import Query, QueryType, DataSourceConfig, QueryResultConfig
@@ -25,6 +26,9 @@ class TemplateQueryId(Enum):
 
 class TemplateQuery(Query):
     """Query which can execute custom SQL stored in templates"""
+    query_type: Literal[QueryType.template.value]
+    """The type of query"""
+
     template_id: TemplateQueryId = None,
     """The template query ID"""
 
@@ -32,9 +36,8 @@ class TemplateQuery(Query):
     """Arbitrary key value pair variables used as part of the query"""
 
     def __init__(self, data_source_config: DataSourceConfig, query_result_config: QueryResultConfig = None,
-                 query_id: str | None = None, event_hooks: [EventHook] = None, **data):
-        super().__init__(query_type=QueryType.template,
-                         data_source_config=data_source_config,
+                 query_id: str | None = None, event_hooks: list[EventHook] | None  = None, **data):
+        super().__init__(data_source_config=data_source_config,
                          query_result_config=query_result_config,
                          query_id=query_id,
                          event_hooks=event_hooks,

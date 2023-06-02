@@ -11,7 +11,7 @@ class AddColumnIndexesCommand(DataSourceManagementCommand):
     table: Table
     """The table to index"""
 
-    column_indexes: [ColumnIndexDefinition]
+    column_indexes: list[ColumnIndexDefinition]
     """Definitions on how to index the columns"""
 
     def __init__(self, **data):

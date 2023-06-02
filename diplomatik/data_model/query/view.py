@@ -1,4 +1,4 @@
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 
 
 class View(QueryComponent):
@@ -7,3 +7,6 @@ class View(QueryComponent):
     """
     view_name: str
     """Name of the view"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.view, **data)

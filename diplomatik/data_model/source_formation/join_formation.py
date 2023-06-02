@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -46,11 +47,12 @@ class RightJoinTable(BaseModel):
 
 class JoinFormation(SourceFormation):
     """The definition on how to form from joined sources"""
+    formation_type: Literal[SourceFormationType.join.value]
+    """The type of source formation"""
+
     left_table: Table
     """The anchored table which other tables will join to"""
 
-    right_tables: [RightJoinTable]
+    right_tables: list[RightJoinTable]
     """The tables to join the anchored table"""
 
-    def __init__(self, **data):
-        super().__init__(formation_type=SourceFormationType.join, **data)

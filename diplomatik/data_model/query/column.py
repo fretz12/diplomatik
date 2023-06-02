@@ -1,11 +1,16 @@
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponentType
-from diplomatik.data_model.query.field import Field, FieldDataType
+from typing import Literal
+
+from diplomatik.data_model.query_component import QueryComponentType
+from diplomatik.data_model.query.field import Field, FieldDataType, FieldType
 
 
 class Column(Field):
     """
     The column field that directly refers to a data source's table's column
     """
+    field_type: Literal[FieldType.column.value]
+    """The type of field"""
+
     column_name: str
     """Name of the column"""
 

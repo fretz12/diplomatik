@@ -11,10 +11,10 @@ class CreateTableCommand(DataSourceManagementCommand):
     table_name: str
     """Name of the new table"""
 
-    column_definitions: [CreateColumnDefinition]
+    column_definitions: list[CreateColumnDefinition]
     """Definitions on how to create the new columns"""
 
-    column_indexes: [ColumnIndexDefinition] = None
+    column_indexes: list[ColumnIndexDefinition] = None
     """Index definitions on any newly create columns"""
 
     if_not_exists: bool = True

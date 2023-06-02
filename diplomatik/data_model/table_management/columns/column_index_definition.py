@@ -8,7 +8,7 @@ class ColumnIndexDefinition(BaseModel):
     index_name: str
     """Name of the index"""
 
-    columns: [Column]
+    columns: list[Column]
     """The column(s) to index"""
 
     is_unique: bool = False

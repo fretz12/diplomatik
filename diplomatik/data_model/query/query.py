@@ -3,64 +3,23 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from diplomatik.data_model.data_source_type import DataSourceType
 from diplomatik.data_model.query.event_hooks.event_hook import EventHook
+from diplomatik.data_model.query.query_results.query_result import QueryResultType
 from diplomatik.exceptions.exceptions import DataModelException
 
 
-class DataSourceType(Enum):
-    postgres = 'postgres'
-
-    @classmethod
-    def get_by_value(cls, value: str):
-        """
-        Gets the data source type based on its string value
-
-        :param value: the value to match
-        :return: the data source type
-        """
-        for source in DataSourceType:
-            if source.value == value:
-                return source
-
-        raise DataModelException(f"{value} is not a valid data source type")
-
-
-class QueryResultType(Enum):
-    py_list = 'py_list'
-    """Returns the results as a python list"""
-
-    py_dict = 'py_dict'
-    """Returns the results as a python dict"""
-
-    pandas_dataframe = 'pandas_dataframe'
-    """Returns the results as a Pandas dataframe"""
-
-    @classmethod
-    def get_by_value(cls, value):
-        """
-        Gets the query result source type based on its string value
-
-        :param value: the value to match
-        :return: the query result type
-        """
-        for type in QueryResultType:
-            if type.value == value:
-                return type
-
-        raise DataModelException(f"{value} is not a valid query result type")
-
-
 class QueryType(Enum):
-    search = 'search'
     aggregate = 'aggregate'
-    insert = 'insert'
-    delete = 'delete'
-    update = 'update'
-    rollup = 'rollup'
-    data_source_management = 'data_source_management'
     batch = 'batch'
-    union = 'union'
+    data_source_management = 'data_source_management'
+    delete = 'delete'
+    insert = 'insert'
+    search = 'search'
     template = 'template'
+    union = 'union'
+    update = 'update'
+
 
     @classmethod
     def get_by_value(cls, value):
@@ -97,9 +56,6 @@ class Query(BaseModel, ABC):
     """
     The base query class
     """
-    query_type: QueryType
-    """The type of query"""
-
     data_source_config: DataSourceConfig
     """Config about the data source to query"""
 
@@ -110,11 +66,11 @@ class Query(BaseModel, ABC):
     """Optional ID for the query. This is user supplied and up to the user to guarantee its uniqueness. A common way to 
     guarantee uniqueness is to use UUIDs"""
 
-    event_hooks: [EventHook] = None
+    event_hooks: list[EventHook] | None  = None
     """Event hooks that get executed before or after the query gets executed"""
 
 
 class Transaction(BaseModel):
     """The list of queries to execute together as a transaction"""
-    queries: [Query]
+    queries: list[Query]
     """The queries to execute in order"""

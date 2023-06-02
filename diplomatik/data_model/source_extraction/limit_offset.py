@@ -1,4 +1,4 @@
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 
 
 class LimitOffset(QueryComponent):
@@ -8,3 +8,6 @@ class LimitOffset(QueryComponent):
 
     offset: int | None = None
     """The row count to offset the results by. Equivalent to OFFSET in SQL"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.limit_offset, **data)

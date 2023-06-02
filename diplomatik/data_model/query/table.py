@@ -1,4 +1,4 @@
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 
 
 class Table(QueryComponent):
@@ -10,3 +10,6 @@ class Table(QueryComponent):
 
     table_alias: str | None = None
     """Alias of the table"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.table, **data)

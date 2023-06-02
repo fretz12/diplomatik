@@ -9,7 +9,7 @@ class DeleteColumnsCommand(DataSourceManagementCommand):
     table: Table
     """The table from which to delete columns"""
 
-    columns: [Column]
+    columns: list[Column]
     """The columns to delete"""
 
     def __init__(self, **data):

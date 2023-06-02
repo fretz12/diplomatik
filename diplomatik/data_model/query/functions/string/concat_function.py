@@ -4,7 +4,7 @@ from diplomatik.data_model.query.functions.function import Function, FunctionCat
 
 class ConcatFunction(Function):
     """Concatenates together multiple fields into a single string"""
-    fields: [Field]
+    fields: list[Field]
     """The fields to concatenate"""
 
     def __init__(self, alias: str = None, **data):

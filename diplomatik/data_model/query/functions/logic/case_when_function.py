@@ -1,4 +1,4 @@
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent
 from diplomatik.data_model.filter.filter import Filter
 from diplomatik.data_model.query.field import Field
 from diplomatik.data_model.query.functions.function import Function, FunctionCategory, FunctionType
@@ -19,7 +19,7 @@ class CaseWhenFunction(Function):
     """
     The function that wraps a "switch-case" around a set of conditions. This is equivalent to CASE WHEN in SQL.
     """
-    clauses: [CaseWhenClause]
+    clauses: list[CaseWhenClause]
     """The clauses to check for a condition and return a result if matched"""
 
     default_result: Field

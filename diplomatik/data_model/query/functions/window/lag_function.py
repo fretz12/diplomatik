@@ -1,7 +1,7 @@
 from diplomatik.data_model.query.column import Column
 from diplomatik.data_model.query.field import Field
 from diplomatik.data_model.query.functions.function import Function, FunctionCategory, FunctionType
-from diplomatik.data_model.source_extraction.order_by import OrderBy
+from diplomatik.data_model.source_extraction.order_by import OrderByMultiple
 
 
 class LagFunction(Function):
@@ -15,10 +15,10 @@ class LagFunction(Function):
     rows: int
     """The number of rows behind the current row to sample"""
 
-    grouped_columns: [Column]
+    grouped_columns: list[Column]
     """The columns on how to group the rows together, equivalent to a PARTITION BY in SQL"""
 
-    order_by: [OrderBy]
+    order_by: OrderByMultiple
     """The definitions on how to order the rows within a group"""
 
     def __init__(self, alias: str = None, **data):

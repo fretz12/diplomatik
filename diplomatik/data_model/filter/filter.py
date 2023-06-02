@@ -1,7 +1,6 @@
-from abc import ABC
 from enum import Enum
 
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 from diplomatik.exceptions.exceptions import DataModelException
 
 
@@ -48,7 +47,10 @@ class FilterType(Enum):
         raise DataModelException(f"{value} is not a valid filter")
 
 
-class Filter(QueryComponent, ABC):
+class Filter(QueryComponent):
     """"The base filter class"""
     filter_type: FilterType
     """The type of filter"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.filter, **data)

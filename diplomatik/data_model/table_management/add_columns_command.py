@@ -11,7 +11,7 @@ class AddColumnsCommand(DataSourceManagementCommand):
     table: Table
     """The table to add columns to"""
 
-    column_definitions: [CreateColumnDefinition]
+    column_definitions: list[CreateColumnDefinition]
     """Definitions on how to create columns"""
 
     def __init__(self, **data):

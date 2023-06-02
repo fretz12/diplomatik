@@ -3,11 +3,11 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from diplomatik.data_engine.data_engine_api.query_component import QueryComponent
+from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
 from diplomatik.data_model.query.column import Column
 from diplomatik.data_model.query.field import Field
 from diplomatik.data_model.query.functions.function import Function, FunctionCategory, FunctionType
-from diplomatik.data_model.source_extraction.order_by import OrderBy
+from diplomatik.data_model.source_extraction.order_by import OrderByMultiple
 from diplomatik.exceptions.exceptions import DataModelException
 
 
@@ -63,11 +63,17 @@ class WindowBound(QueryComponent, ABC):
     rows_count: int | None = None
     """Should be provided to indicate the number of rows preceding or following the current row"""
 
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.window_bound, **data)
+
 
 class WindowAggregation(QueryComponent, ABC):
     """The window aggregation base model"""
     aggregation_type: WindowAggregationType
     """The window aggregation type"""
+
+    def __init__(self, **data):
+        super().__init__(component_type=QueryComponentType.window_aggregation, **data)
 
 
 class FirstValueWindowAggregation(WindowAggregation, BaseModel):
@@ -119,10 +125,10 @@ class WindowFunction(Function):
     window_aggregation: WindowAggregation
     """The definition on how to aggregate the field in the window"""
 
-    partition_by: [Column]
+    partition_by: list[Column]
     """The columns to partition by for each window. Equivalent to PARTITION BY in SQL"""
 
-    order_by: [OrderBy]
+    order_by: OrderByMultiple
     """Defines how rows are ordered within each window. Equivalent to ORDER BY in window functions in SQL"""
 
     start_bound: WindowBound
