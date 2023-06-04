@@ -61,6 +61,6 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
         for i, param in enumerate(statement.params):
             param_key = get_query_param_name(i)
 
-            statement.expression += statement.expression.replace(QUERY_PARAM_PLACEHOLDER, f":{param_key}", 1)
+            statement.expression = statement.expression.replace(QUERY_PARAM_PLACEHOLDER, f":{param_key}", 1)
 
             param.key = param_key

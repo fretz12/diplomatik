@@ -6,7 +6,8 @@ from diplomatik.data_model.query_component import QueryComponent
 
 def compile_append_query_component(statement: QueryStatement,
                                    query_component: QueryComponent | None,
-                                   component_compiler: QueryComponentCompiler) -> QueryStatement:
+                                   component_compiler: QueryComponentCompiler,
+                                   component_prefix: str = '') -> QueryStatement:
     """
     Compiles a query component into a statement and appends it to an existing statement
 
@@ -20,7 +21,7 @@ def compile_append_query_component(statement: QueryStatement,
 
     component_statement = component_compiler.compile(query_component)
 
-    statement.expression = statement.expression + component_statement.expression
+    statement.expression = statement.expression + component_prefix + component_statement.expression
     statement.params.extend(component_statement.params)
 
     return statement

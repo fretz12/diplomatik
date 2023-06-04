@@ -26,7 +26,8 @@ class SourceExtractionBuilder(ABC, Generic[T]):
         pass
 
     def append_where_clause(self, statement: QueryStatement) -> QueryStatement:
-        return compile_append_query_component(statement, self.source_extraction.filter, self.component_compiler)
+        return compile_append_query_component(statement, self.source_extraction.filter, self.component_compiler,
+                                              component_prefix='WHERE ')
 
     def append_order_by(self, statement: QueryStatement) -> QueryStatement:
         return compile_append_query_component(statement, self.source_extraction.order_by, self.component_compiler)

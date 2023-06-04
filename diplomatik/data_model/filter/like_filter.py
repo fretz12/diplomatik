@@ -1,12 +1,17 @@
+from typing import Literal
+
 from diplomatik.data_model.filter.filter import Filter, FilterType
-from diplomatik.data_model.query.field import Field
+from diplomatik.data_model.query.field_union_type import FieldUnion
 
 
 class LikeFilter(Filter):
     """
     Filter to check if a field matches a specified pattern. This is equivalent to LIKE in SQL
     """
-    field: Field
+    filter_type: Literal[FilterType.like.value]
+    """The type of filter"""
+
+    field: FieldUnion
     """The field to validate"""
 
     matcher: str = None
@@ -20,5 +25,5 @@ class LikeFilter(Filter):
     empty_as_null: bool = False
     """If set, it will treat blank strings as nulls"""
 
-    def __init__(self, **data):
-        super().__init__(filter_type=FilterType.like, **data)
+    def get_filter_type(self) -> FilterType:
+        return FilterType.like

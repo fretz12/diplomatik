@@ -2,7 +2,8 @@ from abc import ABC
 from enum import Enum
 from pydantic import BaseModel
 
-from diplomatik.data_model.filter.filter import Filter
+from diplomatik.data_model.filter.nested_filters import AndFilter, OrFilter
+from diplomatik.data_model.filter.filter_union_type import FilterUnion
 from diplomatik.data_model.source_extraction.order_by import OrderByMultiple
 from diplomatik.exceptions.exceptions import DataModelException
 
@@ -33,7 +34,7 @@ class SourceExtraction(BaseModel, ABC):
     """
     Data model defining how data should be extracted from a source
     """
-    filter: Filter | None = None
+    filter: FilterUnion | AndFilter | OrFilter | None = None
     """Optional filter to apply to source extraction"""
 
     order_by: OrderByMultiple = None

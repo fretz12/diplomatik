@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from enum import Enum
 
 from diplomatik.data_model.query_component import QueryComponent, QueryComponentType
@@ -49,8 +50,28 @@ class FilterType(Enum):
 
 class Filter(QueryComponent):
     """"The base filter class"""
-    filter_type: FilterType
-    """The type of filter"""
 
     def __init__(self, **data):
         super().__init__(component_type=QueryComponentType.filter, **data)
+
+    @abstractmethod
+    def get_filter_type(self) -> FilterType:
+        """
+        :return: the type of filter
+        """
+        pass
+
+    def get_boolean_operator_expression(self) -> str:
+        """
+        :return: the expression of a boolean operator if this is an and/or filter
+        """
+        return ''
+
+    def get_children_filters(self) -> list | None:
+        """
+        For and/or filters, returns the children sub-filters
+
+        :return: the children filters
+        :rtype: list[FilterUnion | AndFilter | OrFilter]
+        """
+        return None

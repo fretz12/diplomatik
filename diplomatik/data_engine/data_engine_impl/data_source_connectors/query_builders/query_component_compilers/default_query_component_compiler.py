@@ -2,6 +2,8 @@ from typing import TypeVar, Generic
 
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.column_component_compiler import \
     ColumnComponentCompiler
+from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.filter_compilers.default_filter_compiler import \
+    DefaultFilterComponentCompiler
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.limit_offset_compiler import \
     LimitOffsetCompiler
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.query_component_compiler import \
@@ -35,7 +37,7 @@ class DefaultQueryComponentCompiler(QueryComponentCompiler, Generic[T]):
         elif component_type == QueryComponentType.column:
             return ColumnComponentCompiler(self.syntax_policy).compile(component)
         elif component_type == QueryComponentType.filter:
-            pass
+            return DefaultFilterComponentCompiler(self.syntax_policy, self).compile(component)
         elif component_type == QueryComponentType.function:
             pass
         elif component_type == QueryComponentType.group_by:
