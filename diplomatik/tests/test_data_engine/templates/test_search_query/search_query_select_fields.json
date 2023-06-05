@@ -14,5 +14,6 @@
       }
     },
     "fields": {{ fields }}
+    {% if filter %}, "filter": {{ filter }}{% endif %}
   }
 }
