@@ -32,8 +32,9 @@ class ValueComponentCompiler(QueryComponentCompiler[Value]):
         for field in value.fields:
             field_statement = self.query_component_compiler.compile(field)
 
-            statement.expression += field_statement.expression.replace(FIELD_PLACEHOLDER, statement.expression, 1)
-            statement.params.extend(field_statement.params)
+            statement.expression = statement.expression.replace(FIELD_PLACEHOLDER, field_statement.expression, 1)
+            if field_statement.params:
+                statement.params.extend(field_statement.params)
 
         return statement
 
