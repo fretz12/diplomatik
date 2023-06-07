@@ -8,10 +8,7 @@ name: Deploy Jekyll site to Pages
 
 on:
   push:
-    branches:
-      - main
-      - initial-launch
-      ## TODO remove initial-launch when merged
+    branches: ["main", "feature/initial-launch"]
   paths:
     - "docs/**"
 
