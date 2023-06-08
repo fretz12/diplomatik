@@ -45,7 +45,7 @@ class TestSearchQueryBuilder:
             },
             {
                 'field_type': 'value',
-                "expression": "1 + 2",
+                "expression": "10",
                 "alias": "alias2"
             },
             {
@@ -73,7 +73,7 @@ class TestSearchQueryBuilder:
 
         create_and_validate_query(
             query,
-            'SELECT __param_placeholder__ as alias1, 1 + 2 as alias2, "column1" / 100 as alias3 '
+            'SELECT __param_placeholder__ as alias1, __param_placeholder__ as alias2, "column1" / 100 as alias3 '
             'FROM "table1"',
-            [QueryParam(value='ABC')])
+            [QueryParam(value='ABC'), QueryParam(value='10')])
 

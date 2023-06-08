@@ -151,8 +151,8 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" >= 10)',
-                                  [])
+                                  'WHERE ("column1" >= __param_placeholder__)',
+                                  [QueryParam(value='10')])
 
     def test_select_with_bound_lower_strict_value_filter(self, search_query_fixture):
         fields = [
@@ -189,8 +189,8 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" > 10)',
-                                  [])
+                                  'WHERE ("column1" > __param_placeholder__)',
+                                  [QueryParam(value='10')])
 
     def test_select_with_bound_upper_value_filter(self, search_query_fixture):
         fields = [
@@ -226,8 +226,8 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" <= 10)',
-                                  [])
+                                  'WHERE ("column1" <= __param_placeholder__)',
+                                  [QueryParam(value='10')])
 
     def test_select_with_bound_upper_strict_value_filter(self, search_query_fixture):
         fields = [
@@ -264,8 +264,8 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" < 10)',
-                                  [])
+                                  'WHERE ("column1" < __param_placeholder__)',
+                                  [QueryParam(value='10')])
 
     def test_select_with_bound_between_value_filter(self, search_query_fixture):
         fields = [
@@ -306,8 +306,8 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" >= 5 AND "column1" < 10)',
-                                  [])
+                                  'WHERE ("column1" >= __param_placeholder__ AND "column1" < __param_placeholder__)',
+                                  [QueryParam(value='5'), QueryParam(value='10')])
 
     def test_select_with_bound_between_column_filter(self, search_query_fixture):
         fields = [
@@ -348,6 +348,78 @@ class TestSearchQueryWithFilter:
         create_and_validate_query(query,
                                   'SELECT "column1" '
                                   'FROM "table1" '
-                                  'WHERE ("column1" >= "column2" AND "column1" < 10)',
-                                  [])
+                                  'WHERE ("column1" >= "column2" AND "column1" < __param_placeholder__)',
+                                  [QueryParam(value='10')])
 
+    def test_select_with_null_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "null_check",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            }
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" IS NULL)', [])
+
+    def test_select_with_not_null_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "null_check",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "negate": True
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" IS NOT NULL)', [])

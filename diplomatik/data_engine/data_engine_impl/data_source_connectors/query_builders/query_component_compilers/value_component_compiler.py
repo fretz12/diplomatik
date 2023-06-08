@@ -7,8 +7,6 @@ from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builde
 from diplomatik.data_model.query.query_statement import QueryStatement, QueryParam
 from diplomatik.data_model.query.value import Value, FIELD_PLACEHOLDER
 
-MATH_CHARS_REGEX = re.compile(r'[^0-9.\s()+\-*/]')
-
 
 class ValueComponentCompiler(QueryComponentCompiler[Value]):
     def __init__(self, syntax_policy: SyntaxPolicy, query_component_compiler: QueryComponentCompiler):
@@ -42,13 +40,4 @@ class ValueComponentCompiler(QueryComponentCompiler[Value]):
         if not value.expression:
             return QueryStatement(expression='NULL')
 
-        if self.__is_math_expression(value):
-            """
-            Don't parametrize any math expressions otherwise it won't evaluate
-            """
-            return QueryStatement(expression=value.expression)
-
         return QueryStatement(expression=QUERY_PARAM_PLACEHOLDER, params=[QueryParam(value=value.expression)])
-
-    def __is_math_expression(self, value: Value) -> bool:
-        return not bool(MATH_CHARS_REGEX.search(value.expression))
