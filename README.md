@@ -7,6 +7,10 @@ Its APIs resemble SQL and act as if you are directly querying the underlying dat
 At the same time, it takes care of datasource compatability and security issues. For example, the same APIs can be used 
 to query a Postgres database or a Big Query data warehouse.
 
+<p align="center">
+  <img src="https://github.com/fretz12/diplomatik/assets/41805201/60e5b0c8-4bbd-4d15-b23f-26cd02acef57" width="400" height="850"/>
+</p>
+
 
 ### Why Does it Exist?
 
