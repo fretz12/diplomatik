@@ -423,3 +423,80 @@ class TestSearchQueryWithFilter:
                                   'SELECT "str_column", "decimal_column" '
                                   'FROM "table1" '
                                   'WHERE ("str_column" IS NOT NULL)', [])
+
+    def test_select_with_like_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "like",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "matcher": "%ABC%"
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" LIKE __param_placeholder__)',
+                                  [QueryParam(value="%ABC%")])
+
+    def test_select_with_not_like_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "like",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "matcher": "%ABC%",
+            "negate": "true"
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" NOT LIKE __param_placeholder__)',
+                                  [QueryParam(value="%ABC%")])

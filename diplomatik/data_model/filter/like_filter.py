@@ -22,8 +22,5 @@ class LikeFilter(Filter):
     negate: bool = False
     """If set, checks if a field does not match the pattern"""
 
-    empty_as_null: bool = False
-    """If set, it will treat blank strings as nulls"""
-
     def get_filter_type(self) -> FilterType:
         return FilterType.like
