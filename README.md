@@ -1,6 +1,6 @@
 # Diplomatik: SQL-Based APIs for Data Analytics and Transformations
 
-### What is It?
+## What is It?
 
 Diplomatik is a lightweight and extensible service that adapts a single set of APIs to query a variety of data sources.
 Its APIs resemble SQL and act as if you are directly querying the underlying database or data warehouse. 
@@ -12,7 +12,7 @@ to query a Postgres database or a Big Query data warehouse.
 </p>
 
 
-### Why Does it Exist?
+## Why Does it Exist?
 
 SQL is a powerful language used to query and transform data. Applications that allow the end user to explore or manage 
 data typically hide it layers deep in the backend. Exposing SQL directly to the end user would put more flexibility 
@@ -28,7 +28,7 @@ specific syntax quirks
 Diplomatik is a middleware service that solves the above problems with a single set of SQL-like APIs and plugs into 
 many data sources. It is focused on being developer-oriented, API-first, and extensible for custom scenarios.
 
-### Features
+## Features
 
 - Single set of APIs to query multiple data sources
 
@@ -38,9 +38,11 @@ many data sources. It is focused on being developer-oriented, API-first, and ext
 
 - Extensible: build your own SQL-based APIs
 
+- Powerful SQL-based filters, functions, expressions
+
 ## Get Started
 
-### Supported Data Sources
+## Supported Data Sources
 
 - Postgres
 - More coming

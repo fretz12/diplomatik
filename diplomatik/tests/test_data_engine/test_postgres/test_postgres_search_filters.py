@@ -500,3 +500,86 @@ class TestSearchQueryWithFilter:
                                   'FROM "table1" '
                                   'WHERE ("str_column" NOT LIKE __param_placeholder__)',
                                   [QueryParam(value="%ABC%")])
+
+    def test_select_with_in_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "matches_any_in",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "in_values": [
+                "A",
+                "B"
+            ]
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" IN (__param_placeholder__, __param_placeholder__))',
+                                  [QueryParam(value="A"), QueryParam(value="B")])
+
+    def test_select_with_not_in_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "matches_any_in",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "in_values": [
+                "A",
+                "B"
+            ],
+            "negate": "true"
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ("str_column" NOT IN (__param_placeholder__, __param_placeholder__))',
+                                  [QueryParam(value="A"), QueryParam(value="B")])
