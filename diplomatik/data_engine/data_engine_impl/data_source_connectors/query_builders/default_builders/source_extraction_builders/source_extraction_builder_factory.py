@@ -7,6 +7,7 @@ from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builde
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.syntax_policies.syntax_policy import \
     SyntaxPolicy
 from diplomatik.data_model.source_extraction.source_extraction import SourceExtraction, SourceExtractionType
+from diplomatik.exceptions.exceptions import DataEngineException
 
 T = TypeVar("T", bound=SourceExtraction)
 
@@ -18,5 +19,8 @@ class SourceExtractionBuilderFactory:
         builders = {
             SourceExtractionType.select: SelectExtractionBuilder,
         }
+
+        if source_extraction_type not in builders:
+            raise DataEngineException(f"Unknown source extraction type: {source_extraction_type}")
 
         return builders[source_extraction_type](component_compiler, syntax_policy, source_extraction)

@@ -583,3 +583,109 @@ class TestSearchQueryWithFilter:
                                   'FROM "table1" '
                                   'WHERE ("str_column" NOT IN (__param_placeholder__, __param_placeholder__))',
                                   [QueryParam(value="A"), QueryParam(value="B")])
+
+    def test_select_with_in_subselect_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "matches_any_in_subselect",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "select_extraction": {
+                "extraction_type": "select",
+                "source_formation": {
+                    "formation_type": "single_table",
+                    "table": {
+                        "table_name": "lookup_table1"
+                    }
+                },
+                "fields": [
+                    {
+                        "field_type": "column",
+                        "column_name": "lookup_id"
+                    }
+                ]
+            }
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE "str_column" IN '
+                                  '(SELECT DISTINCT "lookup_id" FROM "lookup_table1" )',
+                                  [])
+    def test_select_with_not_in_subselect_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "matches_any_in_subselect",
+            "field": {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            "select_extraction": {
+                "extraction_type": "select",
+                "source_formation": {
+                    "formation_type": "single_table",
+                    "table": {
+                        "table_name": "lookup_table1"
+                    }
+                },
+                "fields": [
+                    {
+                        "field_type": "column",
+                        "column_name": "lookup_id"
+                    }
+                ]
+            },
+            "negate": "true"
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE "str_column" NOT IN '
+                                  '(SELECT DISTINCT "lookup_id" FROM "lookup_table1" )',
+                                  [])

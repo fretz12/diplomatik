@@ -4,6 +4,8 @@ from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builde
     DefaultEqualsFilterCompiler
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.filter_compilers.default_in_filter_compiler import \
     DefaultInFilterCompiler
+from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.filter_compilers.default_in_subselect_filter_compiler import \
+    DefaultInSubSelectFilterCompiler
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.filter_compilers.default_like_filter_compiler import \
     DefaultLikeFilterCompiler
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_component_compilers.filter_compilers.default_null_check_filter_compiler import \
@@ -89,6 +91,8 @@ class DefaultFilterComponentCompiler(QueryComponentCompiler[Filter]):
             return DefaultEqualsFilterCompiler(self.syntax_policy, self.query_component_compiler).compile(filter)
         elif filter_type == FilterType.matches_any_in:
             return DefaultInFilterCompiler(self.syntax_policy, self.query_component_compiler).compile(filter)
+        elif filter_type == FilterType.matches_any_in_subselect:
+            return DefaultInSubSelectFilterCompiler(self.syntax_policy, self.query_component_compiler).compile(filter)
         elif filter_type == FilterType.like:
             return DefaultLikeFilterCompiler(self.syntax_policy, self.query_component_compiler).compile(filter)
         elif filter_type == FilterType.null_check:
