@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  diplomatik:
+    image: diplomatik:0.1.0
+    restart: always
+    container_name: diplomatik
+    ports:
+      - 8000:8000
+    env_file:
+      - /my/project/root/dir/.env
+    network_mode: host
+    command: --host 0.0.0.0
