@@ -15,4 +15,3 @@ application environment variables:
 1. The .env file can be passed in directly and referred to in the compose file. This is specified in the sample.
 2. The env vars can be define in the compose file
 3. The env vars can be defined on the command line if directly running the container without the compose file
-4. 

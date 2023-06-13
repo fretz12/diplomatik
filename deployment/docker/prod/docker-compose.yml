@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   diplomatik:
-    image: diplomatik:0.1.0
+    image: fretz12/diplomatik
     restart: always
     container_name: diplomatik
     ports:
