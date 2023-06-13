@@ -689,3 +689,62 @@ class TestSearchQueryWithFilter:
                                   'WHERE "str_column" NOT IN '
                                   '(SELECT DISTINCT "lookup_id" FROM "lookup_table1" )',
                                   [])
+
+    def test_select_with_and_filter(self, search_query_fixture):
+        fields = [
+            {
+                "field_type": "column",
+                "column_name": "str_column"
+            },
+            {
+                "field_type": "column",
+                "column_name": "decimal_column"
+            },
+        ]
+        fields = json.dumps(fields)
+
+        filter = {
+            "filter_type": "and",
+            "filters": [
+                {
+                    "filter_type": "equals",
+                    "lhs": {
+                        "field_type": "column",
+                        "column_name": "str_column"
+                    },
+                    "rhs": {
+                        "field_type": "value",
+                        "expression": "A"
+                    }
+                },
+                {
+                    "filter_type": "equals",
+                    "lhs": {
+                        "field_type": "column",
+                        "column_name": "decimal_column"
+                    },
+                    "rhs": {
+                        "field_type": "value",
+                        "expression": "10"
+                    }
+                }
+            ]
+        }
+        filter = json.dumps(filter)
+
+        args = {
+            "source_type": "postgres",
+            "table_name": "table1",
+            "fields": fields,
+            "filter": filter
+        }
+
+        query = search_query_fixture("test_search_query/search_query_select_fields.json", args)
+
+        create_and_validate_query(query,
+                                  'SELECT "str_column", "decimal_column" '
+                                  'FROM "table1" '
+                                  'WHERE ( ("decimal_column" = __param_placeholder__) AND '
+                                  '("str_column" = __param_placeholder__) )',
+                                  [QueryParam(value='10'), QueryParam(value='A')])
+
