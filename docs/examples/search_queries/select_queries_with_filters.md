@@ -590,3 +590,161 @@ Set the payload for `/queries/read` API request as:
 ```
 
 ---
+
+## Select Where Multiple Conditions have an OR relationship
+<br>
+To get the SQL equivalent of:
+
+```sql
+SELECT str_column, decimal_column
+FROM table1
+WHERE str_column = 'A' OR decimal_column = 10
+```
+
+Set the payload for `/queries/read` API request as:
+
+```json
+{
+  "query_type": "search",
+  "data_source_config": {
+    "source_type": "postgres"
+  },
+  "query_id": "my_unique_id",
+  "source_extraction": {
+    "query_type": "select",
+    "extraction_type": "select",
+    "source_formation": {
+      "formation_type": "single_table",
+      "table": {
+        "table_name": "table1"
+      }
+    },
+    "fields": [
+      {
+        "field_type": "column",
+        "column_name": "str_column"
+      },
+      {
+        "field_type": "column",
+        "column_name": "decimal_column"
+      }
+    ],
+    "filter": {
+      "filter_type": "and",
+      "filters": [
+        {
+          "filter_type": "equals",
+          "lhs": {
+            "field_type": "column",
+            "column_name": "str_column"
+          },
+          "rhs": {
+            "field_type": "value",
+            "expression": "A"
+          }
+        },
+        {
+          "filter_type": "equals",
+          "lhs": {
+            "field_type": "column",
+            "column_name": "decimal_column"
+          },
+          "rhs": {
+            "field_type": "value",
+            "expression": "10"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+---
+
+## Select Where Multiple Conditions have a deeply nested relationship
+<br>
+To get the SQL equivalent of:
+
+```sql
+SELECT str_column, decimal_column
+FROM table1
+WHERE str_column = 'A' OR (str_column = 'B' AND decimal_column = 20) 
+```
+
+Set the payload for `/queries/read` API request as:
+
+```json
+{
+  "query_type": "search",
+  "data_source_config": {
+    "source_type": "postgres"
+  },
+  "query_id": "my_unique_id",
+  "source_extraction": {
+    "query_type": "select",
+    "extraction_type": "select",
+    "source_formation": {
+      "formation_type": "single_table",
+      "table": {
+        "table_name": "table1"
+      }
+    },
+    "fields": [
+      {
+        "field_type": "column",
+        "column_name": "str_column"
+      },
+      {
+        "field_type": "column",
+        "column_name": "decimal_column"
+      }
+    ],
+    "filter": {
+      "filter_type": "or",
+      "filters": [
+        {
+          "filter_type": "equals",
+          "lhs": {
+            "field_type": "column",
+            "column_name": "str_column"
+          },
+          "rhs": {
+            "field_type": "value",
+            "expression": "A"
+          }
+        },
+        {
+          "filter_type": "and",
+          "filters": [
+            {
+              "filter_type": "equals",
+              "lhs": {
+                "field_type": "column",
+                "column_name": "str_column"
+              },
+              "rhs": {
+                "field_type": "value",
+                "expression": "B"
+              }
+            },
+            {
+              "filter_type": "equals",
+              "lhs": {
+                "field_type": "column",
+                "column_name": "decimal_column"
+              },
+              "rhs": {
+                "field_type": "value",
+                "expression": "20"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+---
