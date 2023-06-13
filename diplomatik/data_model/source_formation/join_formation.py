@@ -3,7 +3,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from diplomatik.data_model.filter.filter import Filter
+from diplomatik.data_model.filter.filter_union_type import FilterUnion
+from diplomatik.data_model.filter.nested_filters import OrFilter, AndFilter
 from diplomatik.data_model.query.table import Table
 from diplomatik.data_model.source_formation.source_formation import SourceFormation, SourceFormationType
 from diplomatik.exceptions.exceptions import DataModelException
@@ -41,7 +42,7 @@ class RightJoinTable(BaseModel):
     table: Table
     """The table to join"""
 
-    on_condition: Filter
+    on_condition: FilterUnion | AndFilter | OrFilter
     """The condition defining how the tables are to be joined. Equivalent to the ON portion of a join."""
 
 

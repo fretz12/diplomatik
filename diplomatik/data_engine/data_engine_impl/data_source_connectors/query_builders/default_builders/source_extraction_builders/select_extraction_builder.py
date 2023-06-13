@@ -27,7 +27,8 @@ class SelectExtractionBuilder(SourceExtractionBuilder[SelectExtraction]):
 
         columns_statement = self.__create_select_columns_statement()
 
-        source_formation_statement = SourceFormationComponentCompiler(syntax_policy=self.syntax_policy)\
+        source_formation_statement = SourceFormationComponentCompiler(
+            syntax_policy=self.syntax_policy, component_compiler=self.component_compiler)\
             .compile(self.source_extraction.source_formation)
 
         statement.expression = f"SELECT {distinct}{columns_statement.expression} " \
