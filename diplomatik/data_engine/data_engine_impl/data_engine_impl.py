@@ -14,3 +14,11 @@ class DataEngineImpl(DataEngineAPI):
         executor = DataSourceExecutorFactory.construct(query.data_source_config.source_type)
 
         return executor.execute_read_query(query)
+
+    def execute_write_query(self, query: Query):
+        if not query.data_source_config:
+            raise DataEngineException("Missing data source config")
+
+        executor = DataSourceExecutorFactory.construct(query.data_source_config.source_type)
+
+        executor.execute_write_query(query)

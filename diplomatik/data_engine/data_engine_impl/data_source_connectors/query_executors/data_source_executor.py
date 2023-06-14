@@ -17,3 +17,12 @@ class DataSourceExecutor(ABC):
         :return: the query's results
         """
         pass
+
+    @abstractmethod
+    def execute_write_query(self, query: Query) -> [QueryResult]:
+        """
+        Executes a single write query
+
+        :param query: the query to execute
+        """
+        pass

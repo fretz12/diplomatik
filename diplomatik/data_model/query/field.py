@@ -32,6 +32,7 @@ class FieldDataType(Enum):
     float64 = 'float64'
     string = 'string'
     date = 'date'
+    auto_increment_int = 'auto_increment_int'
 
     @classmethod
     def get_by_value(cls, value: str):

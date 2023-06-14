@@ -45,6 +45,23 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
 
             return query_results
 
+    def execute_write_query(self, query: Query):
+        with PostgresConnectionManager().get_connection() as connection:
+            query_type = QueryType.get_by_value(query.query_type)
+
+            statements = QueryBuilderFactory.construct(query_type, DataSourceType.postgres, query).build()
+
+            for statement in statements:
+                self.__replace_query_params(statement)
+
+                bind_params = [bindparam(key=param.key, value=param.value) for param in statement.params]
+
+                bound_query = text(statement.expression).bindparams(*bind_params)
+
+                connection.execute(bound_query)
+
+            connection.commit()
+
     def __get_adapter_type(self, query: Query) -> QueryResultType:
         if query.query_result_config:
             return query.query_result_config.result_type

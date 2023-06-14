@@ -19,7 +19,7 @@ class QueryStatement(BaseModel):
     expression: str = None
     """The SQL expression to execute"""
 
-    params: list[QueryParam] | None = None
+    params: list[QueryParam] | None = []
     """Parameters associated with a prepared statement"""
 
     query_id: str | None = None

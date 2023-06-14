@@ -13,3 +13,8 @@ router = APIRouter(
 @router.post("/read")
 async def read(query: QueryUnionBody):
     return DataEngineFactory.create_engine().execute_read_query(query)
+
+
+@router.post("/write")
+async def write(query: QueryUnionBody):
+    DataEngineFactory.create_engine().execute_write_query(query)

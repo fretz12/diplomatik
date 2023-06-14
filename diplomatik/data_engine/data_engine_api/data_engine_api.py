@@ -14,3 +14,12 @@ class DataEngineAPI(ABC):
         :return: the query's results
         """
         pass
+
+    @abstractmethod
+    def execute_write_query(self, query: Query):
+        """
+        Executes a single write query and returns the results of the execution
+
+        :param query: the query to execute
+        """
+        pass

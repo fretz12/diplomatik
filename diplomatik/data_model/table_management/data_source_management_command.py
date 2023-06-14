@@ -41,6 +41,3 @@ class DataSourceManagementCommandType(Enum):
 
 class DataSourceManagementCommand(BaseModel, ABC):
     """The data source management command base model"""
-    command_type: DataSourceManagementCommandType
-    """The command type"""
-

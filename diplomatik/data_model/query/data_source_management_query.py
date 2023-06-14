@@ -2,7 +2,8 @@ from typing import Literal
 
 from diplomatik.data_model.query.event_hooks.event_hook import EventHook
 from diplomatik.data_model.query.query import Query, QueryType, DataSourceConfig, QueryResultConfig
-from diplomatik.data_model.table_management.data_source_management_command import DataSourceManagementCommand
+from diplomatik.data_model.table_management.data_source_management_command_union_type import \
+    DataSourceManagementCommandUnion
 
 
 class DataSourceManagementQuery(Query):
@@ -12,7 +13,7 @@ class DataSourceManagementQuery(Query):
     query_type: Literal[QueryType.data_source_management.value]
     """The type of query"""
 
-    command: DataSourceManagementCommand
+    command: DataSourceManagementCommandUnion
     """The management command"""
 
     def __init__(self, data_source_config: DataSourceConfig, query_result_config: QueryResultConfig = None,

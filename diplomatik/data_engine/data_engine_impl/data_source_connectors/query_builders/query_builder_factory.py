@@ -1,5 +1,7 @@
 from typing import TypeVar
 
+from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.default_builders.default_data_management_query_builder import \
+    DefaultDataManagementQueryBuilder
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.default_builders.default_search_query_builder import \
     DefaultSearchQueryBuilder
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_builder import QueryBuilder
@@ -25,6 +27,7 @@ class QueryBuilderFactory:
         """
         builders = {
             (QueryType.search, DataSourceType.postgres): DefaultSearchQueryBuilder,
+            (QueryType.data_source_management, DataSourceType.postgres): DefaultDataManagementQueryBuilder,
         }
 
         return builders[(query_type, source_type)](source_type, query)
