@@ -3,8 +3,23 @@ services:
   postgres:
     image: postgres:15.3
     restart: always
-    container_name: postgres
+    container_name: postgres-demo
     ports:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: my_secret
+
+  diplomatik:
+    image: fretz12/diplomatik
+    restart: always
+    container_name: diplomatik-demo
+    ports:
+      - 8000:8000
+    environment:
+      POSTGRES_DEFAULT_USER: postgres
+      POSTGRES_DEFAULT_PASSWORD: my_secret
+      POSTGRES_DEFAULT_HOST: localhost
+      POSTGRES_DEFAULT_PORT: 5432
+      POSTGRES_DEFAULT_DATABASE: postgres
+    network_mode: host
+    command: --host 0.0.0.0
