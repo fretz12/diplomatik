@@ -1,4 +1,4 @@
-from sqlalchemy import text, bindparam
+from sqlalchemy import text
 
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_builder_factory import \
     QueryBuilderFactory
@@ -33,13 +33,9 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
             query_results = []
 
             for statement in statements:
-                self.__replace_query_params(statement)
+                params = self.__get_query_params(statement)
 
-                bind_params = [bindparam(key=param.key, value=param.value) for param in statement.params]
-
-                bound_query = text(statement.expression).bindparams(*bind_params)
-
-                result = connection.execute(bound_query)
+                result = connection.execute(text(statement.expression), params)
 
                 query_results.append(adapter.parse(result))
 
@@ -52,13 +48,9 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
             statements = QueryBuilderFactory.construct(query_type, DataSourceType.postgres, query).build()
 
             for statement in statements:
-                self.__replace_query_params(statement)
+                params = self.__get_query_params(statement)
 
-                bind_params = [bindparam(key=param.key, value=param.value) for param in statement.params]
-
-                bound_query = text(statement.expression).bindparams(*bind_params)
-
-                connection.execute(bound_query)
+                connection.execute(text(statement.expression), params)
 
             connection.commit()
 
@@ -68,12 +60,15 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
 
         return DEFAULT_RESULT_TYPE
 
-    def __replace_query_params(self, statement: QueryStatement):
+    def __get_query_params(self, statement: QueryStatement) -> dict | list[dict]:
         """
         Replaces the placeholders in the query with the actual values. Since we used named params, the params are
-        uniquely named and the order in which it's declared is important
+        uniquely named and the order in which it's declared is important.
+        Gets the params collection to use in the query execution. For a list of param dicts, it is used where a param
+        can represent multiple values, like in an insert query inserting multiple rows.
 
-        :param statement: the statement to replace for
+        :param: the statement to replace for
+        :return: the params collection
         """
         for i, param in enumerate(statement.params):
             param_key = get_query_param_name(i)
@@ -81,3 +76,18 @@ class PostgresDataSourceExecutor(DataSourceExecutor):
             statement.expression = statement.expression.replace(QUERY_PARAM_PLACEHOLDER, f":{param_key}", 1)
 
             param.key = param_key
+
+        return self.__get_bulk_params_list(statement) if statement.is_bulk_params else self.__get_params_dict(statement)
+
+    def __get_params_dict(self, statement: QueryStatement) -> dict:
+        return {param.key: param.value for param in statement.params}
+
+    def __get_bulk_params_list(self, statement: QueryStatement) -> list[dict]:
+        bulk_params = []
+
+        row_count = len(statement.params[0].value)
+
+        for i in range(row_count):
+            bulk_params.append({param.key: param.value[i] for param in statement.params})
+
+        return bulk_params

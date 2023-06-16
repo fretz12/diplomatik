@@ -1,0 +1,14 @@
+{
+  "query_type": "insert",
+  "data_source_config": {
+    "source_type": "{{ source_type }}"
+  },
+  "query_id": "{{ query_id|default('unique_query_id') }}",
+  "insert_type": "values",
+  "table": {
+    "table_name": "{{ table_name }}"
+  },
+  "columns": {{ columns }},
+  "values": {{ values }}
+  {% if filter %}, "filter": {{ filter }}{% endif %}
+}

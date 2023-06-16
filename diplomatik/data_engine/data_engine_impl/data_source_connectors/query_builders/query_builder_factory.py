@@ -4,6 +4,8 @@ from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builde
     DefaultDataManagementQueryBuilder
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.default_builders.default_search_query_builder import \
     DefaultSearchQueryBuilder
+from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.default_builders.insert_query_builders.default_insert_query_builder import \
+    DefaultInsertQueryBuilder
 from diplomatik.data_engine.data_engine_impl.data_source_connectors.query_builders.query_builder import QueryBuilder
 from diplomatik.data_model.data_source_type import DataSourceType
 from diplomatik.data_model.query.query import QueryType, Query
@@ -27,6 +29,7 @@ class QueryBuilderFactory:
         """
         builders = {
             (QueryType.search, DataSourceType.postgres): DefaultSearchQueryBuilder,
+            (QueryType.insert, DataSourceType.postgres): DefaultInsertQueryBuilder,
             (QueryType.data_source_management, DataSourceType.postgres): DefaultDataManagementQueryBuilder,
         }
 
