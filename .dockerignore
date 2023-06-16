@@ -1,0 +1,11 @@
+docs/
+venv/
+deployment/
+.idea/
+.github/
+__pycache__/
+
+.env
+LICENSE
+.gitignore
+*.log

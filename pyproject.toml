@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "diplomatik"
+version = "0.1.0"
+description = "Diplomatik is a lightweight and extensible service that adapts a universal set of data models and APIs to query a variety of data sources."
+authors = ["Fred Tzeng <fred@fredtzeng.me>"]
+license = "Apache 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+poetry = "^1.5.0"
+fastapi = "^0.95.2"
+python-multipart = "^0.0.6"
+google-cloud-bigquery = "^3.10.0"
+google-auth = "^2.18.1"
+sqlalchemy = "^2.0.14"
+python-dotenv = "^1.0.0"
+alembic = "^1.11.1"
+psycopg2-binary = "^2.9.6"
+loguru = "^0.7.0"
+google-api-python-client = "^2.87.0"
+pdoc = "^13.1.1"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
+httpx = "^0.24.1"
+pytest-mock = "^3.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

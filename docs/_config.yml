@@ -1,0 +1,17 @@
+title: Diplomatik
+description: SQL-Based APIs for Data Analytics and Transformations
+url: https://fretz12.github.io/diplomatik
+theme: just-the-docs
+aux_links:
+  "Diplomatik on GitHub":
+    - "//github.com/fretz12/diplomatik"
+
+color_scheme: diplomatik
+enable_copy_code_button: true
+callouts:
+  note:
+    title: Note
+    color: grey-lt
+  warning:
+    title: Warning
+    color: yellow

@@ -1,47 +1,16 @@
-# Diplomatik: SQL-Based APIs for Data Analytics and Transformations
+---
+title: Get Started
+layout: default
+nav_order: 2
+---
 
-Diplomatik is a lightweight and extensible service that adapts a single set of APIs to query a variety of data sources.
-Its APIs resemble SQL and act as if you are directly querying the underlying database or data warehouse. 
-At the same time, it takes care of datasource compatability and security issues. For example, the same APIs can be used 
-to query a Postgres database or a Big Query data warehouse.
-
-Learn more here: https://fretz12.github.io/diplomatik
-
-## Why Does it Exist?
-
-SQL is a powerful language used to query and transform data. Applications that allow the end user to explore or manage 
-data typically hide it layers deep in the backend. Exposing SQL directly to the end user would put more flexibility 
-and power in the user's hands. However, exposing SQL syntax directly via APIs presents some problems:
-
-- Different data sources can have different SQL syntax or DSLs
-
-- The API caller (i.e. a front-end developer) may have no background in writing SQL, let alone figuring out data source 
-specific syntax quirks
-
-- Security issues, such as SQL injection attacks
-
-Diplomatik is a middleware service that solves the above problems with a single set of SQL-like APIs and plugs into 
-many data sources. It is focused on being developer-oriented, API-first, and extensible for custom scenarios.
-
-## Features
-
-- Single set of APIs to query multiple data sources
-
-- Flexibility and power of SQL expressed in API data models
-
-- Seamless handling of security, multi-tenancy, and permission concerns
-
-- Extensible: build your own SQL-based APIs
-
-- Powerful SQL-based filters, functions, expressions, deep nesting
-
-## Get Started
+# Get Started
 
 ### Prerequisites
 
 - Docker
 - Docker Compose
-- jq 
+- jq
 
 Please follow installation instructions for above tools
 
@@ -54,9 +23,9 @@ git clone https://github.com/fretz12/diplomatik.git
 cd diplomatik
 ```
 
-### Step 2. Start the Diplomatik Service 
+### Step 2. Start the Diplomatik Service
 
-Execute the provided Docker Compose script to launch the Diplomatik service and a demo Postgres database locally. 
+Execute the provided Docker Compose script to launch the Diplomatik service and a demo Postgres database locally.
 The Postgres database will be the targeted data source where we provide queries to it.
 
 ```shell
