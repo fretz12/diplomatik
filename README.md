@@ -7,11 +7,6 @@ to query a Postgres database or a Big Query data warehouse.
 
 Learn more here: https://fretz12.github.io/diplomatik
 
-<p align="center">
-  <img src="https://github.com/fretz12/diplomatik/assets/41805201/60e5b0c8-4bbd-4d15-b23f-26cd02acef57" width="400" height="850"/>
-</p>
-
-
 ## Why Does it Exist?
 
 SQL is a powerful language used to query and transform data. Applications that allow the end user to explore or manage 
@@ -268,8 +263,3 @@ curl -X POST 'http://127.0.0.1:8000/queries/read' \
 ```
 
 That's it! For more examples, head over [here](https://fretz12.github.io/diplomatik/examples/examples.html)
-
-## Supported Data Sources
-
-- Postgres
-- More coming soon

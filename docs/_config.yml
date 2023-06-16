@@ -8,4 +8,10 @@ aux_links:
 
 color_scheme: diplomatik
 enable_copy_code_button: true
-
+callouts:
+  note:
+    title: Note
+    color: grey-lt
+  warning:
+    title: Warning
+    color: yellow
